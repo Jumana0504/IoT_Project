@@ -1,0 +1,47 @@
+#include <IRremoteESP8266.h>
+#include <IRsend.h>
+#include <IRrecv.h>
+#include <IRutils.h>
+
+const uint16_t kRecvPin = 15;  // IR receiver pin
+const uint16_t kIrLedPin = 4;  // IR transmitter pin
+
+IRrecv irrecv(kRecvPin);
+IRsend irsend(kIrLedPin);
+decode_results results;
+
+int sendCount = 0;
+uint32_t lastCodeSent = 0;
+
+void setup() {
+  Serial.begin(115200);
+  irsend.begin();
+  irrecv.enableIRIn();
+  randomSeed(analogRead(0));  // Initialize randomness
+
+  Serial.println("IR Transmit + Receive test starting...");
+}
+
+void loop() {
+  // Check if data was received
+  if (irrecv.decode(&results)) {
+    Serial.print("📥 Received: ");
+    Serial.println(resultToHexidecimal(&results));
+    irrecv.resume();  // Ready for next input
+  }
+
+  // Every 2 cycles, send a random IR NEC code
+  static unsigned long lastSentTime = 0;
+  if (millis() - lastSentTime > 3000) {  // Every 3 seconds
+    if (sendCount % 2 == 0) {
+      lastCodeSent = random(0x10000000, 0xFFFFFFFF);  // Random NEC code
+    }
+
+    Serial.print("📤 Sending: 0x");
+    Serial.println(lastCodeSent, HEX);
+    irsend.sendNEC(lastCodeSent, 32);
+
+    sendCount++;
+    lastSentTime = millis();
+  }
+}
