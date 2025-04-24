@@ -1,0 +1,52 @@
+#define RD_RX 16  // RX2
+#define RD_TX 17  // TX2
+
+#define PI 3.14159265
+
+uint8_t RX_BUF[64];
+uint8_t RX_count = 0;
+bool frameComplete = false;
+
+void setup() {
+  Serial.begin(115200);
+  Serial2.begin(256000, SERIAL_8N1, RD_RX, RD_TX);
+  Serial.println("RD-03D Started");
+}
+
+void loop() {
+  while (Serial2.available()) {
+    uint8_t c = Serial2.read();
+    RX_BUF[RX_count++] = c;
+
+    if (RX_count >= 2 && RX_BUF[RX_count - 2] == 0x55 && RX_BUF[RX_count - 1] == 0xCC) {
+      frameComplete = true;
+      break;
+    }
+
+    if (RX_count >= 64) RX_count = 0; // Prevent buffer overflow
+  }
+
+  if (frameComplete) {
+    int16_t x = (RX_BUF[5] << 8) | RX_BUF[4];
+    int16_t y = (RX_BUF[7] << 8) | RX_BUF[6];
+
+    if (!(x & 0x8000)) x = -1 * (x & 0x7FFF);
+    else x = (x & 0x7FFF);
+
+    if (!(y & 0x8000)) y = -1 * (y & 0x7FFF);
+    else y = (y & 0x7FFF);
+
+    double angle = atan2((double)x, (double)y) * 180.0 / PI;
+
+    Serial.print("x: ");
+    Serial.print(x);
+    Serial.print(" mm, y: ");
+    Serial.print(y);
+    Serial.print(" mm, angle: ");
+    Serial.print(angle);
+    Serial.println("°");
+
+    RX_count = 0;
+    frameComplete = false;
+  }
+}
