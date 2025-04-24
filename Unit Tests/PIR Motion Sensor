@@ -1,0 +1,16 @@
+#define SENSOR_PIN 2  // The digital pin connected to the PIR sensor
+
+void setup() {
+  Serial.begin(115200);                   // Start the serial monitor
+  pinMode(SENSOR_PIN, INPUT);            // Set the PIR sensor pin as input
+  Serial.println("Motion sensor test started");
+}
+
+void loop() {
+  if (digitalRead(SENSOR_PIN)) {         // If motion is detected
+    Serial.println("Motion detected!");
+  } else {
+    Serial.println("No motion");
+  }
+  delay(1000);                           // Wait 1 second
+}
