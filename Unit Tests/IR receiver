@@ -1,0 +1,19 @@
+const uint16_t RECV_PIN = 23;  GPIO pin connected to IR receiver data pin
+
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
+void setup() {
+  Serial.begin(115200);
+  irrecv.enableIRIn();  Start the receiver
+  Serial.println(Ready to receive IR signals);
+}
+
+void loop() {
+  if (irrecv.decode(&results)) {
+    Serial.println(A signal received!);
+    Serial.println(resultToHumanReadableBasic(&results));  human-readable format
+    Serial.println(resultToHexidecimal(&results));  HEX value of signal
+    irrecv.resume();  Prepare to receive the next signal
+  }
+}
