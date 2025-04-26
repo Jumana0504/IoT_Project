@@ -1,0 +1,31 @@
+#define BUZZER 5  // Buzzer connected to GPIO 5
+
+void playNote(int freq, int duration) {
+  tone(BUZZER, freq);
+  delay(duration);
+  noTone(BUZZER);
+  delay(50); // small pause between notes
+}
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  // Fun melody loop
+  playNote(523, 300); // C
+  playNote(587, 300); // D
+  playNote(659, 300); // E
+  playNote(698, 300); // F
+  playNote(784, 500); // G
+
+  delay(200);
+
+  playNote(784, 200); // G
+  playNote(698, 200); // F
+  playNote(659, 200); // E
+  playNote(587, 200); // D
+  playNote(523, 400); // C
+
+  delay(1000); // Wait 1 sec before repeating
+}
