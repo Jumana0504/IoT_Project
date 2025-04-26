@@ -1,0 +1,32 @@
+#include "Adafruit_CCS811.h"
+
+Adafruit_CCS811 ccs;
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("Starting CCS811 sensor...");
+
+  if (!ccs.begin()) {
+    Serial.println("❌ Failed to start sensor! Check connections.");
+    while (1);
+  }
+
+  while (!ccs.available()); // Wait for sensor readiness
+  Serial.println("✅ Sensor ready.");
+}
+
+void loop() {
+  if (ccs.available()) {
+    if (!ccs.readData()) {
+      Serial.print("-> eCO2: ");
+      Serial.print(ccs.geteCO2());
+      Serial.print(" ppm\t | TVOC: ");
+      Serial.print(ccs.getTVOC());
+      Serial.println(" ppb");
+    } else {
+      Serial.println("❌ Error reading CCS811 data");
+    }
+  }
+
+  delay(3000);
+}
