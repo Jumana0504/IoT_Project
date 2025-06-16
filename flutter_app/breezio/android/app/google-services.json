@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "809404410334",
+    "firebase_url": "https://smart-ac-7c7a0-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "smart-ac-7c7a0",
+    "storage_bucket": "smart-ac-7c7a0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809404410334:android:3727aa0e2c017a1ad0954f",
+        "android_client_info": {
+          "package_name": "com.example.breezio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXdO3caArvMV-FaDBp9XlmURZFXiz1dVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
