@@ -1,5 +1,6 @@
 //user defined parameters
 
+/* 
 // OLED display width and height, in pixels
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -23,5 +24,14 @@
 #define DAC_BCK_PIN 26
 #define DAC_WS_PIN 25
 #define DAC_DATA_PIN 22
+*/
+
+//AC Settings
+#define MIN_TEMP 16
+#define MAX_TEMP 30
+#define DEFAULT_TEMP 24
+
+#define kIrLedPin 4
+
 
 
